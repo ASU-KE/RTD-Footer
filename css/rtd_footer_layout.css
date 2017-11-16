@@ -1,0 +1,36 @@
+#mega-footer {
+    background: #353535;
+    background-size: cover;
+    color: #EDEDED;
+    padding: 30px 0 83px;
+    position: relative;
+    padding-bottom: 40px;
+    font-weight: 200;
+    font-size: 16px;
+}
+.container {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+.container:before, .container:after {
+    content: " ";
+    display: table;
+}
+#mega-footer h1 {
+    margin-top: 10px;
+    margin-bottom: 7px;
+    font-size: 19px;
+    line-height: 1.2;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+#mega-footer .address {
+    line-height: 21px;
+    text-align: left;
+    padding: 0;
+}
+#mega-footer .row {
+    max-width: 1175px !important;
+    margin: 0 auto;
+}

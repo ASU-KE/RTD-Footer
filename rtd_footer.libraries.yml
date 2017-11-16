@@ -1,10 +1,11 @@
-demo:
-  js:
-    js/rtd_footer.js: {}
+rtd-footer:
   css:
-    module:
-      css/rtd_footer.css: {}
+    base:
+      css/rtd_footer_base.css: {}
+    layout:
+      css/rtd_footer_layout.css: {}
+    state:
+      css/rtd_footer_state.css: {}
   dependencies:
     - core/drupal
     - core/jquery
-    - core/jquery.once

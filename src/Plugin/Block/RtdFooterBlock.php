@@ -64,10 +64,9 @@ class RtdFooterBlock extends BlockBase {
     //$build['rtd_footer_block_address']['#markup'] = '<p>' . $this->configuration['address'] . '</p>';
       $build['rtd_footer'] = [
           '#theme' => 'rtd_footer',
-          '#attached' => ['library' => 'rtd_footer/footer'],
+          '#attached' => ['library' => 'rtd_footer/rtd-footer'],
       ];
 
       return $build;
   }
-
 }
