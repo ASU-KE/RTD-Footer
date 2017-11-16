@@ -1,0 +1,5 @@
+name: RTD Footer
+type: module
+description: Adds a footer block branded for RTD OKED sites. The site is customized through the admin page.
+core: 8.x
+package: Custom

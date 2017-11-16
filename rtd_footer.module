@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * @file
+ * Contains rtd_footer.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function rtd_footer_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the rtd_footer module.
+    case 'help.page.rtd_footer':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Adds a footer block branded for RTD OKED sites. The site is customized through the admin page.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function rtd_footer_theme() {
+  return [
+    'rtd_footer' => [
+      'render element' => 'children',
+    ],
+  ];
+}
+
