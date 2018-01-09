@@ -8,27 +8,48 @@
     <div class="container">
         <div class="row">
             <div class="col-md-9 col-sm-12 col-xs-12">
-                <p><img alt="Office of Knowledge Enterprise Development"
-                        src="/themes/asu/images/DTN-logo-reversed.png"/></p>
 
-                <h1>Decision Theater</h1>
+                {% if brand_logo %}
 
-                <div class="address">21 East 6th Street, Suite 126A</div>
+                    <p><img alt="Office of Knowledge Enterprise Development" src="{{ file_url(brand_logo['#uri']) }}"/>
+                    </p>
 
-                <div class="address">Tempe, Arizona 85281</div>
+                {% else %}
 
-                <br/>
+                    <p><img alt="Office of Knowledge Enterprise Development"
+                            src="/modules/custom/rtd_footer/images/oked_web_logo.png"/></p>
 
-                <div class="address">P.O. Box 878409</div>
+                {% endif %}
 
-                <div class="address">Tempe, Arizona 85287-8409</div>
+                {% if address %}
 
-                <br/>
+                    {{ address|raw }}
 
-                <div class="address">Phone: 480.965.4098</div>
+                {% else %}
 
+                    <h1>Research</h1>
+
+                    <div class="address">21 East 6th Street, Suite 126A</div>
+
+                    <div class="address">Tempe, Arizona 85281</div>
+
+                    <br/>
+
+                    <div class="address">P.O. Box 878409</div>
+
+                    <div class="address">Tempe, Arizona 85287-8409</div>
+
+                    <br/>
+
+                    <div class="address">Phone: 480.965.4098</div>
+                {% endif %}
+
+                {#                {{ breakpoint() }}#}
 
                 <div>
+
+
+
                     <ul class="social-media">
                         <li><a href="https://www.facebook.com/dt.asu.edu" target="_blank" title="Facebook"><span
                                         class="sr-only">Facebook</span><i class="fa fa-facebook-square"

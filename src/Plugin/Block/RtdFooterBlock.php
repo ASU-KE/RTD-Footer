@@ -3,70 +3,169 @@
 namespace Drupal\rtd_footer\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-//use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Block\BlockPluginInterface;
+use Drupal\file\Entity\File;
 
 /**
  * Provides a 'RtdFooterBlock' block.
  *
  * @Block(
- *  id = "rtd_footer_block",
- *  admin_label = @Translation("Rtd footer block"),
+ *  id = "rtd_footer",
+ *  admin_label = @Translation("RTD Footer"),
  * )
  */
-class RtdFooterBlock extends BlockBase {
+class RtdFooterBlock extends BlockBase implements BlockPluginInterface
+{
+    /**
+     * {@inheritdoc}
+     *
+     * This method sets the block default configuration. This configuration
+     * determines the block's behavior when a block is initially placed in a
+     * region. Default values for the block configuration form should be added to
+     * the configuration array. System default configurations are assembled in
+     * BlockBase::__construct() e.g. cache setting and block title visibility.
+     *
+     * @see \Drupal\block\BlockBase::__construct()
+     *
+     *
+     * /**
+     * {@inheritdoc}
+     */
+    public function defaultConfiguration()
+    {
+        return [
+                'brand_logo' => [
+                    'value' => '',
+                ],
+                'address' => [
+                    'value' => '',
+                    'format' => 'full_html'
+                ],
+            ] + parent::defaultConfiguration();
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-/*  public function defaultConfiguration() {
-    return [
-      'logo' => $this->t(''),
-      'address' => $this->t(''),
-    ] + parent::defaultConfiguration();
-  }*/
+    /**
+     * {@inheritdoc}
+     */
+    public function blockForm($form, FormStateInterface $form_state)
+    {
+        $form = parent::blockForm($form, $form_state);
+        $address = $this->configuration['address'];
+        $brand_logo = $this->configuration['brand_logo'];
+        $facebook = $this->configuration['facebook'];
+        $twitter = $this->configuration['twitter'];
+        $middle_column = $this->configuration['middle_column'];
+        $menu = $this->configuration['menu'];
 
-  /**
-   * {@inheritdoc}
-   */
- /* public function blockForm($form, FormStateInterface $form_state) {
-    $form['logo'] = [
-      '#type' => 'file',
-      '#title' => $this->t('Logo'),
-      '#description' => $this->t('Upload image file of client&#039;s logo'),
-      '#default_value' => $this->configuration['logo'],
-      '#weight' => '0',
-    ];
-    $form['address'] = [
-      '#type' => 'text_format',
-      '#title' => $this->t('address'),
-      '#description' => $this->t('Add custom address.'),
-      '#default_value' => $this->configuration['address'],
-      '#weight' => '0',
-    ];
+        $validators = array(
+            'file_validate_is_image' => array(),
+            'file_validate_extensions' => array('gif png jpg jpeg'),
+            'file_validate_size' => array(25600000)
+        );
 
-    return $form;
-  }*/
+        $form['brand_logo'] = [
+            '#type' => 'managed_file',
+            '#name' => 'brand_logo',
+            '#title' => t('Brand Logo'),
+            '#size' => 20,
+            '#multiple' => FALSE,
+            '#description' => t('Allowed images: gif, png, jpg, jpeg. Recommended dimension: 360px x 72px.'),
+            '#upload_validators' => $validators,
+            '#upload_location' => 'public://brand_logo/',
+            '#default_value' => $brand_logo,
+        ];
 
-  /**
-   * {@inheritdoc}
-   */
-/*  public function blockSubmit($form, FormStateInterface $form_state) {
-    $this->configuration['logo'] = $form_state->getValue('logo');
-    $this->configuration['address'] = $form_state->getValue('address');
-  }*/
+        $form['address'] = [
+            '#type' => 'text_format',
+            '#title' => $this->t('Address'),
+            '#description' => $this->t('Add custom address.'),
+            '#default_value' => $address['value'],
+            '#format' => $address['format'],
+        ];
 
-  /**
-   * {@inheritdoc}
-   */
-  public function build() {
-    $build = [];
-    //$build['rtd_footer_block_logo']['#markup'] = '<p>' . $this->configuration['logo'] . '</p>';
-    //$build['rtd_footer_block_address']['#markup'] = '<p>' . $this->configuration['address'] . '</p>';
-      $build['rtd_footer'] = [
-          '#theme' => 'rtd_footer',
-          '#attached' => ['library' => 'rtd_footer/rtd-footer'],
-      ];
+        $form['social_media'] = [
+            '#type' => 'fieldset',
+            '#title' => $this->t('Social media links'),
+            '#description' => $this->t('Add social media.'),
+        ];
 
-      return $build;
-  }
+        $form['social_media']['facebook'] = [
+            '#type' => 'textfield',
+            '#title' => $this->t('Facebook link'),
+            '#default_value' => $facebook,
+        ];
+
+        $form['social_media']['twitter'] = [
+            '#type' => 'textfield',
+            '#title' => $this->t('Twitter link'),
+            '#default_value' => $twitter,
+        ];
+
+        $form['middle_column'] = [
+            '#type' => 'text_format',
+            '#title' => $this->t('Middle column content'),
+            '#description' => $this->t('Add custom content for middle column content.'),
+            '#format' => $address['format'],
+            '#default_value' => $middle_column['value'],
+        ];
+
+        $form['menu'] = [
+            '#type' => 'checkbox',
+            '#title' => $this->t('Add first-level menu to footer?'),
+            '#description' => $this->t('Check to add primary level menu to footer.'),
+            '#default_value' => $menu,
+        ];
+
+        return $form;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function blockSubmit($form, FormStateInterface $form_state)
+    {
+        parent::blockSubmit($form, $form_state);
+        $brand_logo = $form_state->getValue('brand_logo');
+        $this->configuration['brand_logo'] = $brand_logo;
+        $file = File::load($brand_logo[0]);
+        $file->setPermanent();
+        $file->save();
+        $this->configuration['address'] = $form_state->getValue('address');
+        $this->configuration['middle_column'] = $form_state->getValue('middle_column');
+        $this->configuration['menu'] = $form_state->getValue('menu');
+        $this->configuration['facebook'] = $form_state->getValue('facebook');
+        $this->configuration['twitter'] = $form_state->getValue('twitter');
+
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function build()
+    {
+        $config = $this->getConfiguration();
+
+        $build = [];
+
+        $image_field = $config['brand_logo'];
+        $image_uri = File::load($image_field[0]);
+/*        $final_image_path = Url::fromUri($image_uri->values['uri']['x-default'])->toString‌​();*/
+
+/*        $file_path = \Drupal::service('file_system')->realpath(file_default_scheme() . "://");*/
+
+/*        $menu_items = menuTree();*/
+
+        $build = [
+            '#theme' => 'rtd_footer',
+            '#address' => $config['address']['value'],
+            '#brand_logo' =>  [
+                '#theme' => 'image_style',
+                '#style_name' => 'thumbnail',
+                '#uri' => $image_uri->uri->value
+            ],
+        ];
+
+        return $build;
+    }
 }
