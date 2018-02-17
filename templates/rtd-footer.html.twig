@@ -48,26 +48,34 @@
 
                 <div>
 
-
+                {% if facebook %}
 
                     <ul class="social-media">
-                        <li><a href="https://www.facebook.com/dt.asu.edu" target="_blank" title="Facebook"><span
+                        <li><a href="{{ facebook }}" target="_blank" title="Facebook"><span
                                         class="sr-only">Facebook</span><i class="fa fa-facebook-square"
                                                                           aria-hidden="true"></i></a></li>
-                        <li><a href="https://twitter.com/DT_ASU" target="_blank" title="Twitter"><span class="sr-only">Twitter</span><i
+                        <li><a href="{{ twitter }}" target="_blank" title="Twitter"><span class="sr-only">Twitter</span><i
                                         class="fa fa-twitter"></i></a></li>
                     </ul>
+                {%  endif %}
+
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6 col-xs-6">
+            {% if menu %}
+                <h1>test</h1>
+
+            {% endif %}
+
+
+{#            <div class="col-md-3 col-sm-6 col-xs-6">
                 <ul class="menu nav">
                     <li class="first leaf active"><a class="active" href="/">Home</a></li>
                     <li class="leaf"><a class="sf-depth-1" href="/technology">Technology</a></li>
                     <li class="leaf"><a class="sf-depth-1" href="/solutions">Solutions</a></li>
                     <li class="leaf"><a class="sf-depth-1" href="/about">About</a></li>
                 </ul>
-            </div>
+            </div>#}
         </div>
     </div>
 </div>

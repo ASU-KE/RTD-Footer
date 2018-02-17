@@ -127,10 +127,11 @@ class RtdFooterBlock extends BlockBase implements BlockPluginInterface
     {
         parent::blockSubmit($form, $form_state);
         $brand_logo = $form_state->getValue('brand_logo');
-        $this->configuration['brand_logo'] = $brand_logo;
-        $file = File::load($brand_logo[0]);
+        $file = File::load ($brand_logo[0]);
         $file->setPermanent();
         $file->save();
+
+        $this->configuration['brand_logo'] = $brand_logo;
         $this->configuration['address'] = $form_state->getValue('address');
         $this->configuration['middle_column'] = $form_state->getValue('middle_column');
         $this->configuration['menu'] = $form_state->getValue('menu');
@@ -139,7 +140,7 @@ class RtdFooterBlock extends BlockBase implements BlockPluginInterface
 
     }
 
-    /**
+  /**
      * {@inheritdoc}
      */
     public function build()
@@ -148,13 +149,8 @@ class RtdFooterBlock extends BlockBase implements BlockPluginInterface
 
         $build = [];
 
-        $image_field = $config['brand_logo'];
+        $image_field = $this->configuration['brand_logo'];
         $image_uri = File::load($image_field[0]);
-/*        $final_image_path = Url::fromUri($image_uri->values['uri']['x-default'])->toString‌​();*/
-
-/*        $file_path = \Drupal::service('file_system')->realpath(file_default_scheme() . "://");*/
-
-/*        $menu_items = menuTree();*/
 
         $build = [
             '#theme' => 'rtd_footer',
@@ -164,6 +160,10 @@ class RtdFooterBlock extends BlockBase implements BlockPluginInterface
                 '#style_name' => 'thumbnail',
                 '#uri' => $image_uri->uri->value
             ],
+            '#facebook' => $this->configuration['facebook'],
+            '#twitter' => $this->configuration['twitter'],
+            '#menu' => $this->configuration['menu'],
+            '#middle_column' => $this->configuration['middle_column']
         ];
 
         return $build;
