@@ -32,10 +32,23 @@ function rtd_footer_theme($existing, $type, $theme, $path) {
     'rtd_footer' => [
         'variables' => [
             'address' => NULL,
+            'phone' => NULL,
             'brand_logo' => NULL,
             'middle_column' => NULL,
+            'facebook' => NULL,
+            'twitter' => NULL,
+            'instagram' => NULL,
+            'menu' => NULL,
+            'menu_items_var' => NULL,
         ],
+      '#attached' => [
+        'library' => [
+          'rtd_footer/rtd-footer'
+        ]
+      ]
     ],
   ];
 }
+
+
 

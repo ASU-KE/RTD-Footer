@@ -4,10 +4,13 @@
  *Default theme for RTD Footer.
  */
 #}
+
+{{ attach_library('rtd_footer/rtd-footer') }}
+
 <div id="mega-footer">
     <div class="container">
         <div class="row">
-            <div class="col-md-9 col-sm-12 col-xs-12">
+            <div class="col-md-5 col-sm-12">
 
                 {% if brand_logo %}
 
@@ -21,61 +24,76 @@
 
                 {% endif %}
 
-                {% if address %}
+                <div id="address-footer">
 
-                    {{ address|raw }}
+                    {% if address %}
 
-                {% else %}
+                        {{ address|raw }}
 
-                    <h1>Research</h1>
+                    {% else %}
 
-                    <div class="address">21 East 6th Street, Suite 126A</div>
+                        <h1>Research</h1>
 
-                    <div class="address">Tempe, Arizona 85281</div>
+                        <div class="address">21 East 6th Street, Suite 126A</div>
 
-                    <br/>
+                        <div class="address">Tempe, Arizona 85281</div>
 
-                    <div class="address">P.O. Box 878409</div>
+                        <br/>
 
-                    <div class="address">Tempe, Arizona 85287-8409</div>
+                        <div class="address">P.O. Box 878409</div>
 
-                    <br/>
+                        <div class="address">Tempe, Arizona 85287-8409</div>
 
-                    <div class="address">Phone: 480.965.4098</div>
-                {% endif %}
-
-                {#                {{ breakpoint() }}#}
-
-                <div>
-
-                {% if facebook %}
-
-                    <ul class="social-media">
-                        <li><a href="{{ facebook }}" target="_blank" title="Facebook"><span
-                                        class="sr-only">Facebook</span><i class="fa fa-facebook-square"
-                                                                          aria-hidden="true"></i></a></li>
-                        <li><a href="{{ twitter }}" target="_blank" title="Twitter"><span class="sr-only">Twitter</span><i
-                                        class="fa fa-twitter"></i></a></li>
-                    </ul>
-                {%  endif %}
+                    {% endif %}
 
                 </div>
+
+
+                {% if phone %}
+
+                    <div class="phone">Phone: {{ phone }}</div>
+
+                {% endif %}
+
+                <ul class="social-media">
+                        {% if facebook %}
+                            <li><a href="http://{{ facebook }}" target="_blank" title="Facebook"><span style="display: none">Open </span><span class="sr-only">Facebook</span><i class="fa fa-facebook-square" aria-hidden="true"></i><span style="display: none"> in a new window.</span></a></li>
+                        {% endif %}
+
+                        {% if twitter %}
+                            <li><a href="http://{{ twitter }}" target="_blank" title="Twitter"><span style="display: none">Open </span><span class="sr-only">Twitter</span><i class="fa fa-twitter-square" aria-hidden="true"></i><span style="display: none"> in a new window.</span></a></li>
+                        {% endif %}
+
+                        {% if instagram %}
+                            <li><a href="http://{{ instagram }}" target="_blank" title="instagram"><span style="display: none">Open </span><span class="sr-only">Instagram</span><i class="fa fa-instagram" aria-hidden="true"></i><span style="display: none"> in a new window.</span></a></li>
+                        {% endif %}
+                </ul>
+
             </div>
 
-            {% if menu %}
-                <h1>test</h1>
+                <div class="col-md-3 col-sm-12">
+                    {% if middle_column %}
+                        {{ middle_column|raw }}
+                    {% endif %}
+                </div>
 
+            {% if menu == 1 %}
+            <div class="col-md-4 col-sm-12">
+                    <ul class="footer_menu">
+                        {% for key,value in menu_items_var %}
+                            <li><a href="{{ value.path }}">{{ value.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+            </div>
             {% endif %}
-
-
-{#            <div class="col-md-3 col-sm-6 col-xs-6">
-                <ul class="menu nav">
-                    <li class="first leaf active"><a class="active" href="/">Home</a></li>
-                    <li class="leaf"><a class="sf-depth-1" href="/technology">Technology</a></li>
-                    <li class="leaf"><a class="sf-depth-1" href="/solutions">Solutions</a></li>
-                    <li class="leaf"><a class="sf-depth-1" href="/about">About</a></li>
-                </ul>
-            </div>#}
         </div>
     </div>
 </div>
+
+{#
+  Invoke the custom macro defined above. If classes were provided, use them.
+  This allows the template to be extended without having to also duplicate the
+  code above. @see http://twig.sensiolabs.org/doc/tags/macro.html
+#}
+
+

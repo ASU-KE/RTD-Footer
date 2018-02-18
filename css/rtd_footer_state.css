@@ -1,8 +1,13 @@
 #mega-footer ul.menu.nav li a:hover{
     opacity: 0.5;
 }
-#mega-footer a:link, #mega-footer a:visited {
+#mega-footer a{
+    transition: ;
+}
+#mega-footer a:link,
+#mega-footer a:visited,
+#mega-footer a:hover
+{
     color: #EDEDED;
     text-decoration: none;
-    border-bottom: 1px dotted #EDEDED;
 }

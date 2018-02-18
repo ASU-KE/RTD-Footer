@@ -6,6 +6,8 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Block\BlockPluginInterface;
 use Drupal\file\Entity\File;
+use Drupal\Core\Menu\MenuTreeParameters;
+use Drupal\system\Entity\Menu;
 
 /**
  * Provides a 'RtdFooterBlock' block.
@@ -45,16 +47,83 @@ class RtdFooterBlock extends BlockBase implements BlockPluginInterface
             ] + parent::defaultConfiguration();
     }
 
-    /**
+  /**
+   * Pass a menu name and get a list of menu links.
+   *
+   * @param string $menu_name Menu machine name.
+   * @return array Associative array of menu items.
+   */
+  protected function getMenuItems($menu_name) {
+
+    $menu = [];
+
+    $menu_tree = \Drupal::menuTree();
+
+    // Build the typical default set of menu tree parameters.
+    $parameters = new MenuTreeParameters();
+    $parameters->setMaxDepth(3);
+
+    // Load the tree based on this set of parameters.
+    $tree = $menu_tree->load($menu_name, $parameters);
+
+    // Transform the tree using the manipulators you want.
+    $manipulators = [
+      // Only show links that are accessible for the current user.
+      ['callable' => 'menu.default_tree_manipulators:checkAccess'],
+      // Use the default sorting of menu links.
+      ['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
+    ];
+    $tree = $menu_tree->transform($tree, $manipulators);
+
+    // Finally, build a renderable array from the transformed tree.
+    $menu_tmp = $menu_tree->build($tree);
+
+    foreach ($menu_tmp['#items'] as $item) {
+      $top_level = $this->getMenuItem($item);
+      if (!empty($item['below'])) {
+        foreach ($item['below'] as $child) {
+          $second_level = $this->getMenuItem($child);
+          if (!empty($child['below'])) {
+            foreach ($child['below'] as $grandchild) {
+              $second_level['children'][] = $this->getMenuItem($grandchild);
+            }
+          }
+          $top_level['children'][] = $second_level;
+        }
+      }
+      $menu[] = $top_level;
+    }
+
+    return $menu;
+  }
+
+  /**
+   * Compose and return menu item
+   *
+   * @param array $item
+   * @return array $menu_item
+   */
+  protected function getMenuItem($item) {
+
+    return [
+      'title' => $item['title'],
+      'path' => $item['url']->toString(),
+    ];
+
+  }
+
+  /**
      * {@inheritdoc}
      */
     public function blockForm($form, FormStateInterface $form_state)
     {
         $form = parent::blockForm($form, $form_state);
         $address = $this->configuration['address'];
+        $phone = $this->configuration['phone'];
         $brand_logo = $this->configuration['brand_logo'];
-        $facebook = $this->configuration['facebook'];
-        $twitter = $this->configuration['twitter'];
+        $facebook = $this->configuration['social_media']['facebook'];
+        $twitter = $this->configuration['social_media']['twitter'];
+        $instagram = $this->configuration['social_media']['instagram'];
         $middle_column = $this->configuration['middle_column'];
         $menu = $this->configuration['menu'];
 
@@ -84,6 +153,13 @@ class RtdFooterBlock extends BlockBase implements BlockPluginInterface
             '#format' => $address['format'],
         ];
 
+        $form['phone'] = [
+            '#type' => 'textfield',
+            '#title' => $this->t('Phone'),
+            '#description' => $this->t('Add phone number.'),
+            '#default_value' => $phone,
+        ];
+
         $form['social_media'] = [
             '#type' => 'fieldset',
             '#title' => $this->t('Social media links'),
@@ -100,6 +176,12 @@ class RtdFooterBlock extends BlockBase implements BlockPluginInterface
             '#type' => 'textfield',
             '#title' => $this->t('Twitter link'),
             '#default_value' => $twitter,
+        ];
+
+        $form['social_media']['instagram'] = [
+            '#type' => 'textfield',
+            '#title' => $this->t('Instagram link'),
+            '#default_value' => $instagram,
         ];
 
         $form['middle_column'] = [
@@ -133,10 +215,12 @@ class RtdFooterBlock extends BlockBase implements BlockPluginInterface
 
         $this->configuration['brand_logo'] = $brand_logo;
         $this->configuration['address'] = $form_state->getValue('address');
+        $this->configuration['phone'] = $form_state->getValue('phone');
         $this->configuration['middle_column'] = $form_state->getValue('middle_column');
         $this->configuration['menu'] = $form_state->getValue('menu');
-        $this->configuration['facebook'] = $form_state->getValue('facebook');
-        $this->configuration['twitter'] = $form_state->getValue('twitter');
+        $this->configuration['social_media']['facebook'] = $form_state->getValue(['social_media','facebook']);
+        $this->configuration['social_media']['twitter'] = $form_state->getValue(['social_media', 'twitter']);
+        $this->configuration['social_media']['instagram'] = $form_state->getValue(['social_media', 'instagram']);
 
     }
 
@@ -151,19 +235,24 @@ class RtdFooterBlock extends BlockBase implements BlockPluginInterface
 
         $image_field = $this->configuration['brand_logo'];
         $image_uri = File::load($image_field[0]);
+/*        $menu_items_array = menu_list_system_menus();*/
+        $menu_name = 'main';
 
         $build = [
             '#theme' => 'rtd_footer',
             '#address' => $config['address']['value'],
+            '#phone' => $config['phone'],
             '#brand_logo' =>  [
                 '#theme' => 'image_style',
                 '#style_name' => 'thumbnail',
                 '#uri' => $image_uri->uri->value
             ],
-            '#facebook' => $this->configuration['facebook'],
-            '#twitter' => $this->configuration['twitter'],
-            '#menu' => $this->configuration['menu'],
-            '#middle_column' => $this->configuration['middle_column']
+            '#facebook' => $config['social_media']['facebook'],
+            '#twitter' => $config['social_media']['twitter'],
+            '#instagram' => $config['social_media']['instagram'],
+            '#menu' => $config['menu'],
+            '#middle_column' => $config['middle_column']['value'],
+            '#menu_items_var' => $this->getMenuItems($menu_name),
         ];
 
         return $build;
