@@ -1,5 +1,5 @@
 {
-  "name": "drupal/rtd_footer",
+  "name": "rtd/rtd_footer",
   "type": "drupal-module",
   "description": "Adds a footer block branded for RTD OKED sites. The site is customized through the admin page.",
   "keywords": ["Drupal"],
