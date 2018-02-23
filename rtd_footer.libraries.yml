@@ -8,4 +8,3 @@ rtd-footer:
       css/rtd_footer_state.css: {}
   dependencies:
     - core/drupal
-    - core/jquery

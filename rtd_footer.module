@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
+/*use Drupal\Core\Menu*/
 
 /**
  * Implements hook_help().
@@ -26,11 +27,28 @@ function rtd_footer_help($route_name, RouteMatchInterface $route_match) {
 /**
  * Implements hook_theme().
  */
-function rtd_footer_theme() {
+function rtd_footer_theme($existing, $type, $theme, $path) {
   return [
     'rtd_footer' => [
-      'render element' => 'children',
+        'variables' => [
+            'address' => NULL,
+            'phone' => NULL,
+            'brand_logo' => NULL,
+            'middle_column' => NULL,
+            'facebook' => NULL,
+            'twitter' => NULL,
+            'instagram' => NULL,
+            'menu' => NULL,
+            'menu_items_var' => NULL,
+        ],
+      '#attached' => [
+        'library' => [
+          'rtd_footer/rtd-footer'
+        ]
+      ]
     ],
   ];
 }
+
+
 

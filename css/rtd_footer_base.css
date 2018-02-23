@@ -1,46 +1,8 @@
-#mega-footer img {
-    max-width: 285px;
-    margin: 45px 0 24px;
-}
-#mega-footer ul.menu.nav {
-    border-top: 1px solid #FFF;
-    margin-top: 46px;
-    padding-top: 17px;
-}
-#mega-footer ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: block;
-}
-.footer ul, .footer ol {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-#mega-footer ul.menu.nav li a {
-    border-bottom: none;
-    background: none;
-    padding: 5px 6px;
-    font-size: 18px;
-    line-height: 20px;
-    transition: opacity .8s;
-}
-.footer ul>li>a, .footer ol>li>a {
-    position: relative;
-    text-decoration: none;
-}
-#mega-footer .social-media > li > a {
-    margin-right: 10px;
-    font-size: 38px;
-    border-bottom: none !important;
-}
-#mega-footer .social-media {
-    width: auto;
-    height: 64px;
-    display: inline-block !important;
-    margin-top: 24px;
-}
-.social-media li {
-    float: left;
+/* ------------------------------ */
+/* OKED FOOTER */
+#mega-footer {
+    background: #353535;;
+    background-size: cover;
+    color: #ededed;;
+    padding:30px 0 30px;
 }
