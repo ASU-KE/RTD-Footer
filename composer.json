@@ -4,11 +4,11 @@
   "description": "Adds a footer block branded for RTD OKED sites. The site is customized through the admin page.",
   "keywords": ["Drupal"],
   "license": "GPL-2.0+",
-  "homepage": "https://www.drupal.org/project/rtd_footer",
+  "homepage": "https://github.com/ASU-OKED-WEB-DEV/RTD-Footer",
   "minimum-stability": "dev",
   "support": {
-    "issues": "https://www.drupal.org/project/issues/rtd_footer",
-    "source": "http://cgit.drupalcode.org/rtd_footer"
+    "issues": "https://github.com/ASU-OKED-WEB-DEV/RTD-Footer/issues",
+    "source": "https://github.com/ASU-OKED-WEB-DEV/RTD-Footer"
   },
   "require": { }
 }
