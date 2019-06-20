@@ -10,17 +10,19 @@
 <div id="mega-footer">
     <div class="container">
         <div class="row">
-            <div class="col-md-5 col-sm-12">
+            <div class="col-md-4 col-sm-12 footer-left">
 
                 {% if brand_logo %}
 
-                    <p><img alt="Office of Knowledge Enterprise Development" src="{{ file_url(brand_logo['#uri']) }}"/>
+                    <p>
+                        <img alt="Office of Knowledge Enterprise Development" src="{{ file_url(brand_logo['#uri']) }}"/>
                     </p>
 
                 {% else %}
 
-                    <p><img alt="Office of Knowledge Enterprise Development"
-                            src="/modules/custom/rtd_footer/images/oked_web_logo.png"/></p>
+                    <p>
+                        <img alt="Office of Knowledge Enterprise Development" src="/modules/custom/rtd_footer/images/oked_web_logo.png"/>
+                    </p>
 
                 {% endif %}
 
@@ -56,36 +58,82 @@
                 {% endif %}
 
                 <ul class="social-media">
-                        {% if facebook %}
-                            <li><a href="http://{{ facebook }}" target="_blank" title="Facebook"><span style="display: none">Open </span><span class="sr-only">Facebook</span><i class="fa fa-facebook-square" aria-hidden="true"></i><span style="display: none"> in a new window.</span></a></li>
-                        {% endif %}
 
-                        {% if twitter %}
-                            <li><a href="http://{{ twitter }}" target="_blank" title="Twitter"><span style="display: none">Open </span><span class="sr-only">Twitter</span><i class="fa fa-twitter-square" aria-hidden="true"></i><span style="display: none"> in a new window.</span></a></li>
-                        {% endif %}
+                    {% if facebook %}
 
-                        {% if instagram %}
-                            <li><a href="http://{{ instagram }}" target="_blank" title="instagram"><span style="display: none">Open </span><span class="sr-only">Instagram</span><i class="fa fa-instagram" aria-hidden="true"></i><span style="display: none"> in a new window.</span></a></li>
-                        {% endif %}
+                        <li>
+                            <a href="http://{{ facebook }}" target="_blank" title="Facebook">
+                                <span style="display: none">Open </span>
+                                <span class="sr-only">Facebook</span>
+                                <i class="fa fa-facebook-square" aria-hidden="true"></i>
+                                <span style="display: none"> in a new window.</span>
+                            </a>
+                        </li>
+
+                    {% endif %}
+
+                    {% if twitter %}
+
+                        <li>
+                            <a href="http://{{ twitter }}" target="_blank" title="Twitter">
+                                <span style="display: none">Open </span>
+                                <span class="sr-only">Twitter</span>
+                                <i class="fa fa-twitter-square" aria-hidden="true"></i>
+                                <span style="display: none"> in a new window.</span>
+                            </a>
+                        </li>
+
+                    {% endif %}
+
+                    {% if instagram %}
+
+                        <li>
+                            <a href="http://{{ instagram }}" target="_blank" title="instagram">
+                                <span style="display: none">Open </span>
+                                <span class="sr-only">Instagram</span>
+                                <i class="fa fa-instagram" aria-hidden="true"></i>
+                                <span style="display: none"> in a new window.</span>
+                            </a>
+                        </li>
+
+                    {% endif %}
+
                 </ul>
 
             </div>
 
-                <div class="col-md-3 col-sm-12">
+            <div class="col-md-5 col-sm-12 footer-center">
+
+                <div class="footer-wrap">
+
                     {% if middle_column %}
+
                         {{ middle_column|raw }}
+
                     {% endif %}
+
                 </div>
 
-            {% if menu == 1 %}
-            <div class="col-md-4 col-sm-12">
-                    <ul class="footer_menu">
-                        {% for key,value in menu_items_var %}
-                            <li><a href="{{ value.path }}">{{ value.title }}</a></li>
-                        {% endfor %}
-                    </ul>
             </div>
+
+            {% if menu == 1 %}
+
+                <div class="col-md-3 col-sm-12 footer-right">
+                    <ul class="footer_menu">
+
+                        {% for key,value in menu_items_var %}
+
+                            <li>
+                                <a href="{{ value.path }}">{{ value.title }}</a>
+                            </li>
+
+                        {% endfor %}
+
+                    </ul>
+                </div>
+
             {% endif %}
+
         </div>
     </div>
 </div>

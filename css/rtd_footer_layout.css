@@ -46,7 +46,6 @@
 }
 #mega-footer ul.social-media {
     width: auto;
-    height: 64px;
     display: inline-block;
     list-style-type: none;
     margin: 0;
@@ -73,4 +72,23 @@
 }
 #mega-footer ul.footer_menu a {
     font-weight:300;
+}
+
+#mega-footer .footer-center .footer-wrap {
+    max-width: 280px;
+    margin-left: 11%;
+    padding-top: 20px;
+    border-top: 1px solid #CACACA;
+}
+
+@media(max-width: 991px) {
+
+    #mega-footer .footer-center .footer-wrap {
+        max-width: 100%;
+        margin-left: 0;
+    }
+
+    #mega-footer .footer-center {
+        margin-bottom: 40px;
+    }
 }

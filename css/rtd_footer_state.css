@@ -1,9 +1,6 @@
 #mega-footer ul.menu.nav li a:hover{
     opacity: 0.5;
 }
-#mega-footer a{
-    transition: ;
-}
 #mega-footer a:link,
 #mega-footer a:visited,
 #mega-footer a:hover
