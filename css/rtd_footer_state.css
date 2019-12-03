@@ -5,6 +5,7 @@
 #mega-footer a:visited,
 #mega-footer a:hover
 {
-    color: #EDEDED;
+    color: #CCC;
     text-decoration: none;
+    border-bottom: 1px dotted #CCC;
 }
